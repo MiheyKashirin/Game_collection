@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Game Library</title>
+</head>
+<body>
+    <h1>Добро пожаловать в вашу Библиотеку игр!</h1>
+    <p>
+        Здесь вы можете добавлять игры, которые хотите пройти или купить, ставить им оценки,
+        отмечать, во что играете сейчас, и планировать ваши будущие игровые приключения.
+    </p>
+
+    {% if user.is_authenticated %}
+        <p>Hello, {{ user.username }}!</p>
+        <a href="{% url 'profile' %}">Мой профиль</a> |
+        <a href="{% url 'add_game' %}">Добавить игру</a> |
+        <a href="{% url 'logout_handler' %}">Выйти</a>
+    {% else %}
+        <a href="{% url 'login_handler' %}">Войти</a> |
+        <a href="{% url 'register' %}">Регистрация</a>
+    {% endif %}
+</body>
+</html>

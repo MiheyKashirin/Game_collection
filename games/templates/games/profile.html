@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Профиль</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f9;
+            padding: 30px;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background: #4CAF50;
+            color: white;
+        }
+        tr:hover {
+            background: #f1f1f1;
+        }
+        a.button {
+            text-decoration: none;
+            background: #4CAF50;
+            color: white;
+            padding: 6px 10px;
+            border-radius: 6px;
+        }
+        a.button.delete {
+            background: #e74c3c;
+        }
+        .actions {
+            display: flex;
+            gap: 6px;
+        }
+        .top-buttons {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Профиль: {{ request.user.username }}</h1>
+    <p>Email: {{ request.user.email }}</p>
+
+    <h2>Мои игры:</h2>
+    {% if games %}
+        <table>
+            <tr>
+                <th>Название</th>
+                <th>Платформа</th>
+                <th>Статус</th>
+                <th>Рейтинг</th>
+                <th>Действия</th>
+            </tr>
+            {% for game in games %}
+                <tr>
+                    <td>{{ game.title }}</td>
+                    <td>{{ game.platform }}</td>
+                    <td>{{ game.status }}</td>
+                    <td>{% if game.rating %}{{ game.rating }}/10{% else %}-{% endif %}</td>
+                    <td class="actions">
+                        <a href="{% url 'edit_game' game.id %}" class="button">Редактировать</a>
+                        <a href="{% url 'delete_game' game.id %}" class="button delete">Удалить</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>Вы ещё не добавили игр.</p>
+    {% endif %}
+
+    <div class="top-buttons">
+        <a href="{% url 'add_game' %}" class="button">Добавить игру</a>
+        <a href="{% url 'logout_handler' %}">Выйти</a>
+
+    </div>
+</body>
+</html>

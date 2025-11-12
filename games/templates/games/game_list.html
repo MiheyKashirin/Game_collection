@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Game Collection</title>
+</head>
+<body>
+    <h1>My Game Collection</h1>
+
+    {% if user.is_authenticated %}
+        Hello, {{ user.username }} |
+        <a href="{% url 'add_game' %}">Add Game</a> |
+        <a href="{% url 'logout_handler' %}">Logout</a>
+    {% else %}
+        <a href="{% url 'login_handler' %}">Login</a> |
+        <a href="{% url 'register' %}">Register</a>
+    {% endif %}
+
+    <ul>
+        {% for game in games %}
+            <li>{{ game.title }} — {{ game.platform }} ({{ game.status }})</li>
+        {% empty %}
+            <li>No games yet!</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
