@@ -7,9 +7,7 @@ class UserAndGameTests(TestCase):
 
     def setUp(self):
         self.client = Client()
-        # создаём пользователя
         self.user = User.objects.create_user(username='testuser', password='testpass')
-        # создаём игру
         self.game = Game.objects.create(
             owner=self.user,
             title='Test Game',
@@ -25,20 +23,20 @@ class UserAndGameTests(TestCase):
             'password': 'newpass',
             'password2': 'newpass'
         })
-        self.assertEqual(response.status_code, 302)  # редирект после успешной регистрации
+        self.assertEqual(response.status_code, 302)
         self.assertTrue(User.objects.filter(username='newuser').exists())
 
     def test_login_view(self):
-        response = self.client.post(reverse('login_handler'), {
+        response = self.client.post(reverse('login'), {
             'username': 'testuser',
             'password': 'testpass'
         })
-        self.assertEqual(response.status_code, 302)  # редирект после логина
+        self.assertEqual(response.status_code, 302)
 
     def test_logout_view(self):
         self.client.login(username='testuser', password='testpass')
         response = self.client.get(reverse('logout_handler'))
-        self.assertEqual(response.status_code, 302)  # редирект после логаута
+        self.assertEqual(response.status_code, 302)
 
     def test_game_list_view(self):
         self.client.login(username='testuser', password='testpass')
